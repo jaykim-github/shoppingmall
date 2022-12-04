@@ -1,0 +1,26 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:mariadb://127.0.0.1:3306/shoppingmall
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: root
+    password: zerobase
+
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: dmb04262@gmail.com
+    password: ychtcuxvdgswtaaf
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true

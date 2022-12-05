@@ -22,19 +22,18 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final MailComponents mailComponents;
 
+    //BaseResponse baseResponse;
     @Override
     public BaseResponse register(UserInput userInput) {
-        BaseResponse baseResponse;
 
-        Optional<User> optionalUser = userRepository.findById(userInput.getUser_id());
+        Optional<User> optionalUser = getUser(userInput.getUser_id());
 
         if (optionalUser.isPresent()) {
-            baseResponse = BaseResponse.builder()
+            return BaseResponse.builder()
                 .code(409)
                 .httpStatus(HttpStatus.error409())
                 .message("이미 등록된 아이디 입니다.")
                 .build();
-            return baseResponse;
         }
 
         //시큐리티 적용 후 사용
@@ -106,9 +105,34 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public BaseResponse login(String user_id, String password) {
+        Optional<User> optionalUser = getUser(user_id);
+        if (!optionalUser.isPresent()) {
+            return BaseResponse.builder()
+                .code(409)
+                .httpStatus(HttpStatus.error409())
+                .message("등록되지 않은 아이디 입니다.")
+                .build();
+        }
+        User user = optionalUser.get();
 
+        if (user.getPassword() != password) {
+            return BaseResponse.builder()
+                .code(409)
+                .httpStatus(HttpStatus.error409())
+                .message("비밀번호가 일치하지 않습니다.")
+                .build();
+        }
 
-        return null;
+        return BaseResponse.builder()
+            .code(HttpStatus.ok().status())
+            .httpStatus(HttpStatus.ok())
+            .message("로그인에 성공하였습니다.")
+            .build();
+    }
+
+    private Optional<User> getUser(String user_id) {
+        Optional<User> optionalUser = userRepository.findById(user_id);
+        return optionalUser;
     }
 
 

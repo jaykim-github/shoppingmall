@@ -1,4 +1,4 @@
-package zerobase.shoppingmall.user.service.Impl;
+package zerobase.shoppingmall.user.service.impl;
 
 import java.time.LocalDateTime;
 
@@ -29,11 +29,7 @@ public class UserServiceImpl implements UserService {
         Optional<User> optionalUser = getUser(userInput.getUser_id());
 
         if (optionalUser.isPresent()) {
-            return BaseResponse.builder()
-                .code(409)
-                .httpStatus(HttpStatus.error409())
-                .message("이미 등록된 아이디 입니다.")
-                .build();
+            throw new RuntimeException("이미 등록된 아이디 입니다.");
         }
 
         //시큐리티 적용 후 사용
@@ -75,20 +71,12 @@ public class UserServiceImpl implements UserService {
         BaseResponse baseResponse;
         Optional<User> optionalUser = userRepository.findByEmailAuthKey(uuid);
         if (!optionalUser.isPresent()) {
-            return baseResponse = BaseResponse.builder()
-                .code(409)
-                .httpStatus(HttpStatus.error409())
-                .message("잘못된 인증 메일입니다. 시스템에 문의하여 주세요.")
-                .build();
+            throw new RuntimeException("잘못된 인증 메일입니다.");
         }
 
         User user = optionalUser.get();
         if (user.getEmailAuth() == 1) {
-            return baseResponse = BaseResponse.builder()
-                .code(409)
-                .httpStatus(HttpStatus.error409())
-                .message("이미 인증된 메일입니다.")
-                .build();
+            throw new RuntimeException("이미 인증된 메일입니다.");
         }
 
         user.setEmailAuth(1);
@@ -107,20 +95,12 @@ public class UserServiceImpl implements UserService {
     public BaseResponse login(String user_id, String password) {
         Optional<User> optionalUser = getUser(user_id);
         if (!optionalUser.isPresent()) {
-            return BaseResponse.builder()
-                .code(409)
-                .httpStatus(HttpStatus.error409())
-                .message("등록되지 않은 아이디 입니다.")
-                .build();
+            throw new RuntimeException("등록되지 않은 아이디 입니다.");
         }
         User user = optionalUser.get();
 
         if (user.getPassword() != password) {
-            return BaseResponse.builder()
-                .code(409)
-                .httpStatus(HttpStatus.error409())
-                .message("비밀번호가 일치하지 않습니다.")
-                .build();
+            throw new RuntimeException("비밀번호가 일치하지 않습니다.");
         }
 
         return BaseResponse.builder()

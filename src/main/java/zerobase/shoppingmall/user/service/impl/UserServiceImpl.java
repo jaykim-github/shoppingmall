@@ -60,8 +60,6 @@ public class UserServiceImpl implements UserService {
         mailComponents.sendMail(email, subject, text);
 
         return BaseResponse.builder()
-            .code(HttpStatus.ok().status())
-            .httpStatus(HttpStatus.ok())
             .message("회원 등록에 성공했습니다. 이메일 인증해주세요.")
             .build();
     }
@@ -85,8 +83,6 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
 
         return BaseResponse.builder()
-            .code(HttpStatus.ok().status())
-            .httpStatus(HttpStatus.ok())
             .message("이메일 인증에 성공하였습니다.")
             .build();
     }
@@ -104,8 +100,6 @@ public class UserServiceImpl implements UserService {
         }
 
         return BaseResponse.builder()
-            .code(HttpStatus.ok().status())
-            .httpStatus(HttpStatus.ok())
             .message("로그인에 성공하였습니다.")
             .build();
     }

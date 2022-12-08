@@ -15,8 +15,6 @@ import lombok.Setter;
 @Builder
 public class BaseResponse {
 
-    private Integer code;
-    private HttpStatus httpStatus;
     private String message;
     private Integer count;
     private List<Object> result;

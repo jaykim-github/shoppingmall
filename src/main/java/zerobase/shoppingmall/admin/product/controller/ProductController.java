@@ -14,13 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 import zerobase.shoppingmall.admin.product.dto.ProductInput;
 import zerobase.shoppingmall.admin.product.dto.entity.Product;
 import zerobase.shoppingmall.admin.product.service.ProductService;
-import zerobase.shoppingmall.response.BaseResponse;
 
 @AllArgsConstructor
 @RestController
 public class ProductController {
     //관리자가 상품 등록, 조회, 상세조회, 삭제, 수정
-
     private final ProductService productService;
 
     @PostMapping("/register/product")
@@ -30,8 +28,8 @@ public class ProductController {
             throw new RuntimeException();
         }
 
-        BaseResponse response = productService.register(productInput);
-        return ResponseEntity.ok(response);
+        Product product = productService.register(productInput);
+        return ResponseEntity.ok(product);
     }
 
     @GetMapping("/product")
@@ -42,22 +40,22 @@ public class ProductController {
 
     @GetMapping("/product/detail")
     public ResponseEntity<Object> productDetail(@RequestParam Long productId) {
-        Product product = productService.getProductDettail(productId);
+        Product product = productService.getProductDetail(productId);
         return ResponseEntity.ok(product);
     }
 
     @DeleteMapping("/delete/product")
     public ResponseEntity<Object> deleteProduct(@RequestParam Long productId) {
-        BaseResponse response = productService.deleteProduct(productId);
+        Product product = productService.deleteProduct(productId);
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(product);
     }
 
-    @PutMapping("/update/diary")
+    @PutMapping("/update/product")
     public ResponseEntity<Object> updateProduct(@RequestParam Long productId,
         @RequestBody ProductInput productInput) {
-        BaseResponse response = productService.updateProduct(productId,productInput);
+        Product product = productService.updateProduct(productId,productInput);
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(product);
     }
 }

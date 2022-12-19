@@ -1,5 +1,6 @@
-package zerobase.shoppingmall.admin.product.dto;
+package zerobase.shoppingmall.admin.coupon.dto;
 
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,12 +12,10 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductInput {
-    private String productName;
-    private String productDescription;
+public class CouponInput {
+    private Long couponMasterId;
+    private String userId;
 
-    private Long price;
-
-    // 3: 판매중지, 1:판매중
     private int status;
+    private LocalDateTime usingDate;
 }

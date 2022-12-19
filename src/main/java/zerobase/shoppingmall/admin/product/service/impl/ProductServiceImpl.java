@@ -2,6 +2,7 @@ package zerobase.shoppingmall.admin.product.service.impl;
 
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -9,8 +10,8 @@ import zerobase.shoppingmall.admin.product.dto.ProductInput;
 import zerobase.shoppingmall.admin.product.dto.entity.Product;
 import zerobase.shoppingmall.admin.product.repository.ProductRepository;
 import zerobase.shoppingmall.admin.product.service.ProductService;
-import zerobase.shoppingmall.response.BaseResponse;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
@@ -18,7 +19,7 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
 
     @Override
-    public BaseResponse register(ProductInput productInput) {
+    public Product register(ProductInput productInput) {
 
         Product product = Product.builder()
             .productName(productInput.getProductName())
@@ -27,61 +28,62 @@ public class ProductServiceImpl implements ProductService {
             .status(1)
             .build();
 
-        productRepository.save(product);
-
-        return BaseResponse.builder()
-            .message("상품 등록에 성공하였습니다.")
-            .build();
+        return productRepository.save(product);
     }
 
     @Override
     public Page<Product> getAllProduct(Pageable pageable) {
-        return productRepository.findAll(pageable);
+        //status 1 인 것들만
+        return productRepository.findAllByStatus(pageable, 1);
     }
 
     @Override
-    public BaseResponse deleteProduct(Long productId) {
-        Optional<Product> optionalProduct =  getProduct(productId);
-
-        Product product = optionalProduct.get();
+    public Product deleteProduct(Long productId) {
+        Product product = getProduct(productId);
         product.setStatus(0);
-        productRepository.save(product);
 
-        return BaseResponse.builder()
-            .message("상품이 정상적으로 삭제 되었습니다.")
-            .build();
+        return productRepository.save(product);
     }
 
     @Override
-    public BaseResponse updateProduct(Long productId, ProductInput productInput) {
-        Optional<Product> optionalProduct =  getProduct(productId);
+    public Product updateProduct(Long productId, ProductInput productInput) {
+        Product product = getProduct(productId);
 
-        Product product = optionalProduct.get();
-        product.setProductName(productInput.getProductName());
-        product.setProductDescription(productInput.getProductDescription());
-        product.setPrice(productInput.getPrice());
-        productRepository.save(product);
+        if(productInput.getPrice() != null){
+            product.setPrice(productInput.getPrice());
+        }
+        if(productInput.getProductName() != null){
+            product.setProductName(productInput.getProductName());
+        }
+        if(productInput.getProductDescription() != null){
+            product.setProductDescription(productInput.getProductDescription());
+        }
+        System.out.println(productInput.getStatus());
+        if(productInput.getStatus() != 0){
+            product.setStatus(productInput.getStatus());
+        }
 
-        return BaseResponse.builder()
-            .message("상품이 정상적으로 수정 되었습니다.")
-            .build();
+        return productRepository.save(product);
     }
 
     @Override
-    public Product getProductDettail(Long productId) {
-        Optional<Product> optionalProduct = getProduct(productId);
-        Product product = optionalProduct.get();
-
-        return product;
+    public Product getProductDetail(Long productId) {
+        return getProduct(productId);
     }
 
-    private Optional<Product> getProduct(Long productId) {
+    private Product getProduct(Long productId) {
         Optional<Product> optionalProduct = productRepository.findById(productId);
 
         if(!optionalProduct.isPresent()){
             throw new RuntimeException("등록된 상품이 없습니다.");
         }
 
-        return optionalProduct;
+        return Product.builder()
+            .productId(productId)
+            .productDescription(optionalProduct.get().getProductDescription())
+            .price(optionalProduct.get().getPrice())
+            .productName(optionalProduct.get().getProductName())
+            .status(optionalProduct.get().getStatus())
+            .build();
     }
 }

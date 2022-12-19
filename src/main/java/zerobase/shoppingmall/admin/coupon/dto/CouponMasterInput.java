@@ -1,6 +1,5 @@
-package zerobase.shoppingmall.response;
+package zerobase.shoppingmall.admin.coupon.dto;
 
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,12 +8,12 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class BaseResponse {
+public class CouponMasterInput {
+    private String couponName;
+    private int couponCount;
 
-    private String message;
-    private Integer count;
-    private List<Object> result;
+    private int discountValue;
 }

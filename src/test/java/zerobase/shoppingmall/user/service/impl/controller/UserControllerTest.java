@@ -1,6 +1,5 @@
-package zerobase.shoppingmall.user.controller;
+package zerobase.shoppingmall.user.service.impl.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -14,14 +13,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MockMvcBuilder;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import zerobase.shoppingmall.user.controller.UserController;
 import zerobase.shoppingmall.response.BaseResponse;
 import zerobase.shoppingmall.user.dto.UserInput;
-import zerobase.shoppingmall.user.dto.entity.User;
 import zerobase.shoppingmall.user.service.UserService;
 
 @ExtendWith(MockitoExtension.class)

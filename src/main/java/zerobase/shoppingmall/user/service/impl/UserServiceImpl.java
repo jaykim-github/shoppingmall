@@ -4,15 +4,14 @@ import java.time.LocalDateTime;
 
 import java.util.Optional;
 import java.util.UUID;
-import jodd.net.HttpStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import zerobase.shoppingmall.user.service.UserService;
 import zerobase.shoppingmall.component.MailComponents;
 import zerobase.shoppingmall.response.BaseResponse;
 import zerobase.shoppingmall.user.dto.UserInput;
 import zerobase.shoppingmall.user.dto.entity.User;
 import zerobase.shoppingmall.user.repository.UserRepository;
-import zerobase.shoppingmall.user.service.UserService;
 
 
 @Service
@@ -24,7 +23,7 @@ public class UserServiceImpl implements UserService {
 
     //BaseResponse baseResponse;
     @Override
-    public BaseResponse register(UserInput userInput) {
+    public User register(UserInput userInput) {
 
         Optional<User> optionalUser = getUser(userInput.getUser_id());
 
@@ -50,7 +49,7 @@ public class UserServiceImpl implements UserService {
             .emailAuth(0)
             .build();
 
-        userRepository.save(user);
+
 
         String email = userInput.getUser_id();
         String subject = "가입 인증 메일입니다.";
@@ -59,13 +58,11 @@ public class UserServiceImpl implements UserService {
             + uuid + "'> 가입 완료 </a></div>";
         mailComponents.sendMail(email, subject, text);
 
-        return BaseResponse.builder()
-            .message("회원 등록에 성공했습니다. 이메일 인증해주세요.")
-            .build();
+        return userRepository.save(user);
     }
 
     @Override
-    public BaseResponse emailAuth(String uuid) {
+    public User emailAuth(String uuid) {
         BaseResponse baseResponse;
         Optional<User> optionalUser = userRepository.findByEmailAuthKey(uuid);
         if (!optionalUser.isPresent()) {
@@ -80,15 +77,11 @@ public class UserServiceImpl implements UserService {
         user.setEmailAuth(1);
         user.setEmailAuthDt(LocalDateTime.now());
 
-        userRepository.save(user);
-
-        return BaseResponse.builder()
-            .message("이메일 인증에 성공하였습니다.")
-            .build();
+        return  userRepository.save(user);
     }
 
     @Override
-    public BaseResponse login(String user_id, String password) {
+    public Boolean login(String user_id, String password) {
         Optional<User> optionalUser = getUser(user_id);
         if (!optionalUser.isPresent()) {
             throw new RuntimeException("등록되지 않은 아이디 입니다.");
@@ -99,9 +92,7 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("비밀번호가 일치하지 않습니다.");
         }
 
-        return BaseResponse.builder()
-            .message("로그인에 성공하였습니다.")
-            .build();
+        return true;
     }
 
     private Optional<User> getUser(String user_id) {

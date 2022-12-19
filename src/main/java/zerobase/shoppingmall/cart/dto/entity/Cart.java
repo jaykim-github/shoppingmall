@@ -1,6 +1,5 @@
-package zerobase.shoppingmall.admin.product.dto.entity;
+package zerobase.shoppingmall.cart.dto.entity;
 
-import com.sun.istack.NotNull;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,17 +16,16 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-public class Product {
+public class Cart {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long cartId;
+
+    private String userId;
     private Long productId;
-
     private String productName;
-    private String productDescription;
+    private int countProduct;
 
-    @NotNull
     private Long price;
-
-    // 3: 판매중지, 1:판매중
-    private int status;
 }

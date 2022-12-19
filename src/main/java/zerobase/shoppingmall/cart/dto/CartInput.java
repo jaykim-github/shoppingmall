@@ -1,6 +1,6 @@
-package zerobase.shoppingmall.response;
+package zerobase.shoppingmall.cart.dto;
 
-import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,12 +9,12 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class BaseResponse {
+public class CartInput {
 
-    private String message;
-    private Integer count;
-    private List<Object> result;
+    private String userId;
+    private Long productId;
+    private int count;
 }

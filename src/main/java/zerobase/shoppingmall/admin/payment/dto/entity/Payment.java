@@ -1,6 +1,6 @@
-package zerobase.shoppingmall.admin.product.dto.entity;
+package zerobase.shoppingmall.admin.payment.dto.entity;
 
-import com.sun.istack.NotNull;
+import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,17 +17,17 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-public class Product {
+public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long productId;
+    private Long paymentId;
 
-    private String productName;
-    private String productDescription;
-
-    @NotNull
     private Long price;
+    private String productName;
 
-    // 3: 판매중지, 1:판매중
+    private Long couponId;
+    private String userId;
+
     private int status;
+    private LocalDateTime createDate;
 }

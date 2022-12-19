@@ -1,6 +1,5 @@
-package zerobase.shoppingmall.admin.product.dto.entity;
+package zerobase.shoppingmall.admin.coupon.dto.entity;
 
-import com.sun.istack.NotNull;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,17 +16,13 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-public class Product {
+public class CouponMaster {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long productId;
+    private Long couponMasterId;
 
-    private String productName;
-    private String productDescription;
+    private String couponName;
+    private int couponCount;
 
-    @NotNull
-    private Long price;
-
-    // 3: 판매중지, 1:판매중
-    private int status;
+    private int discountValue;
 }

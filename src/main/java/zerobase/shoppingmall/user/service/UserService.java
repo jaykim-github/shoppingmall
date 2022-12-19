@@ -2,11 +2,12 @@ package zerobase.shoppingmall.user.service;
 
 import zerobase.shoppingmall.response.BaseResponse;
 import zerobase.shoppingmall.user.dto.UserInput;
+import zerobase.shoppingmall.user.dto.entity.User;
 
 public interface UserService {
-    BaseResponse register(UserInput userInput);
+    User register(UserInput userInput);
 
-    BaseResponse emailAuth(String uuid);
+    User emailAuth(String uuid);
 
-    BaseResponse login(String user_id, String password);
+    Boolean login(String user_id, String password);
 }

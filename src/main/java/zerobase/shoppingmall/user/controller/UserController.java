@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import zerobase.shoppingmall.response.BaseResponse;
 import zerobase.shoppingmall.user.dto.UserInput;
+import zerobase.shoppingmall.user.dto.entity.User;
 import zerobase.shoppingmall.user.service.UserService;
 
 @RestController
@@ -20,15 +21,15 @@ public class UserController {
     @PostMapping("/user/register")
     public ResponseEntity<Object> createUser(@RequestBody UserInput userInput) {
 
-        BaseResponse response = userService.register(userInput);
-        return ResponseEntity.ok(response);
+        User user = userService.register(userInput);
+        return ResponseEntity.ok(user);
     }
 
     @GetMapping("/user/email_auth")
     public ResponseEntity<Object> emailAuth(@RequestParam String id) {
         String uuid = id;
-        BaseResponse response = userService.emailAuth(uuid);
-        return ResponseEntity.ok(response);
+        User user = userService.emailAuth(uuid);
+        return ResponseEntity.ok(user);
     }
 
     @PostMapping("/login")
@@ -36,7 +37,7 @@ public class UserController {
         String user_id = userInput.getUser_id();
         String password = userInput.getPassword();
 
-        BaseResponse response = userService.login(user_id, password);
+        Boolean response = userService.login(user_id, password);
         return ResponseEntity.ok(response);
     }
 

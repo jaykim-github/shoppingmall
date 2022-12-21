@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import zerobase.shoppingmall.admin.product.dto.ProductInput;
+import zerobase.shoppingmall.admin.product.dto.ProductStatus;
 import zerobase.shoppingmall.admin.product.dto.entity.Product;
 import zerobase.shoppingmall.admin.product.repository.ProductRepository;
 import zerobase.shoppingmall.admin.product.service.ProductService;
@@ -25,7 +26,7 @@ public class ProductServiceImpl implements ProductService {
             .productName(productInput.getProductName())
             .productDescription(productInput.getProductDescription())
             .price(productInput.getPrice())
-            .status(1)
+            .status(ProductStatus.ON_SALE)
             .build();
 
         return productRepository.save(product);
@@ -34,13 +35,13 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<Product> getAllProduct(Pageable pageable) {
         //status 1 인 것들만
-        return productRepository.findAllByStatus(pageable, 1);
+        return productRepository.findAllByStatus(pageable, ProductStatus.ON_SALE);
     }
 
     @Override
     public Product deleteProduct(Long productId) {
         Product product = getProduct(productId);
-        product.setStatus(0);
+        product.setStatus(ProductStatus.NOT_FOR_SALE);
 
         return productRepository.save(product);
     }
@@ -49,17 +50,16 @@ public class ProductServiceImpl implements ProductService {
     public Product updateProduct(Long productId, ProductInput productInput) {
         Product product = getProduct(productId);
 
-        if(productInput.getPrice() != null){
+        if (productInput.getPrice() != null) {
             product.setPrice(productInput.getPrice());
         }
-        if(productInput.getProductName() != null){
+        if (productInput.getProductName() != null) {
             product.setProductName(productInput.getProductName());
         }
-        if(productInput.getProductDescription() != null){
+        if (productInput.getProductDescription() != null) {
             product.setProductDescription(productInput.getProductDescription());
         }
-        System.out.println(productInput.getStatus());
-        if(productInput.getStatus() != 0){
+        if (productInput.getStatus() != null) {
             product.setStatus(productInput.getStatus());
         }
 
@@ -74,7 +74,7 @@ public class ProductServiceImpl implements ProductService {
     private Product getProduct(Long productId) {
         Optional<Product> optionalProduct = productRepository.findById(productId);
 
-        if(!optionalProduct.isPresent()){
+        if (!optionalProduct.isPresent()) {
             throw new RuntimeException("등록된 상품이 없습니다.");
         }
 

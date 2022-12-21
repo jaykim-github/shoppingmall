@@ -1,10 +1,13 @@
 package zerobase.shoppingmall.admin.payment.service;
 
 import zerobase.shoppingmall.admin.payment.dto.PaymentInput;
+import zerobase.shoppingmall.admin.payment.dto.entity.Payment;
 
 public interface PaymentService {
 
-    String getPaymentInfo(PaymentInput paymentInput);
+    Payment getPaymentInfo(PaymentInput paymentInput);
 
-    void PaymentSuccess(String tid, String pg, String userId, Long paymentId);
+    Payment paymentSuccess(PaymentInput paymentInput);
+
+    Payment paymentCancel(PaymentInput paymentInput);
 }

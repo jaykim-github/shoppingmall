@@ -2,6 +2,8 @@ package zerobase.shoppingmall.admin.product.dto.entity;
 
 import com.sun.istack.NotNull;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -10,6 +12,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import zerobase.shoppingmall.admin.product.dto.ProductStatus;
 
 @Builder
 @AllArgsConstructor
@@ -18,6 +21,7 @@ import lombok.Setter;
 @Getter
 @Entity
 public class Product {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productId;
@@ -28,6 +32,6 @@ public class Product {
     @NotNull
     private Long price;
 
-    // 3: 판매중지, 1:판매중
-    private int status;
+    @Enumerated(value = EnumType.STRING)
+    private ProductStatus status;
 }

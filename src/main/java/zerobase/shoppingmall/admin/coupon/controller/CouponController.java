@@ -2,6 +2,7 @@ package zerobase.shoppingmall.admin.coupon.controller;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,12 +17,8 @@ public class CouponController {
 
     private final CouponService couponService;
 
-    @PostMapping("/coupon/inssued")
-    public ResponseEntity<Object> inssuedCoupon(@RequestBody CouponInput couponInput) {
-        if(couponInput == null){
-            throw new RuntimeException("입력된 정보가 없습니다.");
-        }
-
+    @PostMapping("/coupon/issued")
+    public ResponseEntity<Object> issuedCoupon(@Validated @RequestBody CouponInput couponInput) {
         Coupon coupon = couponService.inssuedCoupon(couponInput);
         return ResponseEntity.ok(coupon);
     }

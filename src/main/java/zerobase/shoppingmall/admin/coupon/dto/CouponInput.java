@@ -1,5 +1,6 @@
 package zerobase.shoppingmall.admin.coupon.dto;
 
+import com.sun.istack.NotNull;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,7 +14,11 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CouponInput {
+
+    @NotNull
     private Long couponMasterId;
+
+    @NotNull
     private String userId;
 
     private int status;

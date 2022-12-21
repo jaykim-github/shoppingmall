@@ -25,16 +25,17 @@ public class CouponServiceImpl implements CouponService {
         CouponMaster couponMaster = couponMasterRepository.findById(couponInput.getCouponMasterId())
             .orElseThrow(() -> new RuntimeException("존재하지 않는 쿠폰입니다."));
 
-        Optional<Coupon> optionalCoupon = couponRepository.findByCouponMasterIdAndUserId(couponInput.getCouponMasterId(),couponInput.getUserId());
+        Optional<Coupon> optionalCoupon = couponRepository.findByCouponMasterIdAndUserId(
+            couponInput.getCouponMasterId(), couponInput.getUserId());
 
-        if(optionalCoupon.isPresent()){
+        if (optionalCoupon.isPresent()) {
             throw new RuntimeException("이미 발급 받은 쿠폰입니다.");
         }
 
-        Long couponCount = couponRepository.findAllByCouponMasterId(couponInput.getCouponMasterId()).orElse(
-            couponMaster.getCouponMasterId()-couponMaster.getCouponMasterId());
+        Long couponCount = couponRepository.countAllByCouponMasterId(
+            couponInput.getCouponMasterId());
 
-        if(couponMaster.getCouponCount() <= couponCount && couponCount != null){
+        if (couponMaster.getCouponCount() <= couponCount) {
             throw new RuntimeException("품절된 쿠폰입니다.");
         }
 

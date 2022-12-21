@@ -6,7 +6,7 @@ import zerobase.shoppingmall.admin.coupon.dto.entity.Coupon;
 
 public interface CouponRepository extends JpaRepository<Coupon, Long> {
 
-   Optional<Coupon> findByCouponMasterIdAndUserId(Long couponMasterId,String userId);
+    Optional<Coupon> findByCouponMasterIdAndUserId(Long couponMasterId, String userId);
 
-   Optional<Long> findAllByCouponMasterId(Long couponMasterId);
+    Long countAllByCouponMasterId(Long couponMasterId);
 }

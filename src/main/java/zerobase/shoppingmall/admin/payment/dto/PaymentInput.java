@@ -1,6 +1,5 @@
 package zerobase.shoppingmall.admin.payment.dto;
 
-import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,11 +12,16 @@ import lombok.Setter;
 @Setter
 @Getter
 public class PaymentInput {
+
     private String userId;
     private Long cartId;
 
     private Long couponId;
 
-    private int status;
-    private LocalDateTime createDate;
+    private PaymentStatus status;
+    private Long price;
+
+    private String tid;
+    private String pg;
+    private Long paymentId;
 }

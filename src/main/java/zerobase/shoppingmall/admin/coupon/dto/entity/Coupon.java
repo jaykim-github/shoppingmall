@@ -18,6 +18,7 @@ import lombok.Setter;
 @Getter
 @Entity
 public class Coupon {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long couponId;

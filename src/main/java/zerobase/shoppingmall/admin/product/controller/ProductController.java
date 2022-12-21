@@ -18,13 +18,14 @@ import zerobase.shoppingmall.admin.product.service.ProductService;
 @AllArgsConstructor
 @RestController
 public class ProductController {
+
     //관리자가 상품 등록, 조회, 상세조회, 삭제, 수정
     private final ProductService productService;
 
     @PostMapping("/register/product")
     public ResponseEntity<Object> createProduct(@RequestBody ProductInput productInput) {
 
-        if(productInput == null){
+        if (productInput == null) {
             throw new RuntimeException();
         }
 
@@ -54,7 +55,7 @@ public class ProductController {
     @PutMapping("/update/product")
     public ResponseEntity<Object> updateProduct(@RequestParam Long productId,
         @RequestBody ProductInput productInput) {
-        Product product = productService.updateProduct(productId,productInput);
+        Product product = productService.updateProduct(productId, productInput);
 
         return ResponseEntity.ok(product);
     }

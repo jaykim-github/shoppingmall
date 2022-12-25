@@ -22,7 +22,7 @@ public class ProductController {
     //관리자가 상품 등록, 조회, 상세조회, 삭제, 수정
     private final ProductService productService;
 
-    @PostMapping("/register/product")
+    @PostMapping("/product/register")
     public ResponseEntity<Object> createProduct(@RequestBody ProductInput productInput) {
 
         if (productInput == null) {
@@ -45,14 +45,14 @@ public class ProductController {
         return ResponseEntity.ok(product);
     }
 
-    @DeleteMapping("/delete/product")
+    @DeleteMapping("/product/delete")
     public ResponseEntity<Object> deleteProduct(@RequestParam Long productId) {
         Product product = productService.deleteProduct(productId);
 
         return ResponseEntity.ok(product);
     }
 
-    @PutMapping("/update/product")
+    @PutMapping("/product/update")
     public ResponseEntity<Object> updateProduct(@RequestParam Long productId,
         @RequestBody ProductInput productInput) {
         Product product = productService.updateProduct(productId, productInput);

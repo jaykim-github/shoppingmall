@@ -17,9 +17,9 @@ public class CouponController {
 
     private final CouponService couponService;
 
-    @PostMapping("/coupon/issued")
+    @PostMapping("/coupon/issued") // 기본 쿠폰 발급 -> 캐시 적용 필요
     public ResponseEntity<Object> issuedCoupon(@Validated @RequestBody CouponInput couponInput) {
-        Coupon coupon = couponService.inssuedCoupon(couponInput);
+        Coupon coupon = couponService.issuedCoupon(couponInput);
         return ResponseEntity.ok(coupon);
     }
 

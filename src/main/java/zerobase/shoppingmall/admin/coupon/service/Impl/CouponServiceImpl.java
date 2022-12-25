@@ -1,15 +1,18 @@
 package zerobase.shoppingmall.admin.coupon.service.Impl;
 
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import zerobase.shoppingmall.admin.coupon.dto.entity.CouponMaster;
-import zerobase.shoppingmall.admin.coupon.repository.CouponRepository;
 import zerobase.shoppingmall.admin.coupon.dto.CouponInput;
 import zerobase.shoppingmall.admin.coupon.dto.entity.Coupon;
+import zerobase.shoppingmall.admin.coupon.dto.entity.CouponMaster;
 import zerobase.shoppingmall.admin.coupon.repository.CouponMasterRepository;
+import zerobase.shoppingmall.admin.coupon.repository.CouponRepository;
 import zerobase.shoppingmall.admin.coupon.service.CouponService;
+import zerobase.shoppingmall.exception.Impl.AlreadtyIssuedCouponException;
+import zerobase.shoppingmall.exception.Impl.NoCouponMasterException;
+import zerobase.shoppingmall.exception.Impl.NoLeftCountCouponException;
 
 @Slf4j
 @Service
@@ -20,23 +23,24 @@ public class CouponServiceImpl implements CouponService {
     private final CouponMasterRepository couponMasterRepository;
 
     @Override
-    public Coupon inssuedCoupon(CouponInput couponInput) {
+    @Cacheable(key = "#couponInput.couponMasterId", value = "coupon")
+    public Coupon issuedCoupon(CouponInput couponInput) {
         //아이디 쿠폰 마스터 확인하기
         CouponMaster couponMaster = couponMasterRepository.findById(couponInput.getCouponMasterId())
-            .orElseThrow(() -> new RuntimeException("존재하지 않는 쿠폰입니다."));
+            .orElseThrow(() -> new NoCouponMasterException());
 
-        Optional<Coupon> optionalCoupon = couponRepository.findByCouponMasterIdAndUserId(
+        int countCoupon = couponRepository.countByCouponMasterIdAndUserId(
             couponInput.getCouponMasterId(), couponInput.getUserId());
 
-        if (optionalCoupon.isPresent()) {
-            throw new RuntimeException("이미 발급 받은 쿠폰입니다.");
+        if (countCoupon > 0) {
+            throw new AlreadtyIssuedCouponException();
         }
 
         Long couponCount = couponRepository.countAllByCouponMasterId(
             couponInput.getCouponMasterId());
 
         if (couponMaster.getCouponCount() <= couponCount) {
-            throw new RuntimeException("품절된 쿠폰입니다.");
+            throw new NoLeftCountCouponException();
         }
 
         Coupon coupon = Coupon.builder()
@@ -48,4 +52,6 @@ public class CouponServiceImpl implements CouponService {
 
         return couponRepository.save(coupon);
     }
+
+
 }

@@ -11,6 +11,7 @@ import zerobase.shoppingmall.admin.product.dto.ProductStatus;
 import zerobase.shoppingmall.admin.product.dto.entity.Product;
 import zerobase.shoppingmall.admin.product.repository.ProductRepository;
 import zerobase.shoppingmall.admin.product.service.ProductService;
+import zerobase.shoppingmall.exception.Impl.NoProductException;
 
 @Slf4j
 @Service
@@ -75,7 +76,7 @@ public class ProductServiceImpl implements ProductService {
         Optional<Product> optionalProduct = productRepository.findById(productId);
 
         if (!optionalProduct.isPresent()) {
-            throw new RuntimeException("등록된 상품이 없습니다.");
+            throw new NoProductException();
         }
 
         return Product.builder()

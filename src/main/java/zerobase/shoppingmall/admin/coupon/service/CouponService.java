@@ -5,5 +5,5 @@ import zerobase.shoppingmall.admin.coupon.dto.entity.Coupon;
 
 public interface CouponService {
 
-    Coupon inssuedCoupon(CouponInput couponInput);
+    Coupon issuedCoupon(CouponInput couponInput);
 }

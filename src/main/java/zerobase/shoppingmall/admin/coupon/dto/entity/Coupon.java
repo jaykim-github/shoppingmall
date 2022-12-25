@@ -1,5 +1,6 @@
 package zerobase.shoppingmall.admin.coupon.dto.entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,7 +18,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-public class Coupon {
+public class Coupon implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

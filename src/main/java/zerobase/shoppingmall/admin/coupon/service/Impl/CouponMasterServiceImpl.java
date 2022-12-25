@@ -9,6 +9,7 @@ import zerobase.shoppingmall.admin.coupon.dto.CouponMasterInput;
 import zerobase.shoppingmall.admin.coupon.dto.entity.CouponMaster;
 import zerobase.shoppingmall.admin.coupon.repository.CouponMasterRepository;
 import zerobase.shoppingmall.admin.coupon.service.CouponMasterService;
+import zerobase.shoppingmall.exception.Impl.NoCouponMasterException;
 
 @Slf4j
 @Service
@@ -37,7 +38,7 @@ public class CouponMasterServiceImpl implements CouponMasterService {
     public CouponMaster updateCouponMaster(Long couponMasterId,
         CouponMasterInput couponMasterInput) {
         CouponMaster couponMaster = couponMasterRepository.findById(couponMasterId)
-            .orElseThrow(() -> new RuntimeException("쿠폰이 없습니다."));
+            .orElseThrow(() -> new NoCouponMasterException());
 
         if(couponMasterInput.getCouponCount() != 0){
             couponMaster.setCouponCount(couponMasterInput.getCouponCount());
@@ -55,7 +56,7 @@ public class CouponMasterServiceImpl implements CouponMasterService {
     @Override
     public String deleteCouponMaster(Long couponMasterId) {
         CouponMaster couponMaster = couponMasterRepository.findById(couponMasterId)
-            .orElseThrow(() -> new RuntimeException("쿠폰 마스터가 없습니다."));
+            .orElseThrow(() -> new NoCouponMasterException());
 
         couponMasterRepository.deleteById(couponMasterId);
 

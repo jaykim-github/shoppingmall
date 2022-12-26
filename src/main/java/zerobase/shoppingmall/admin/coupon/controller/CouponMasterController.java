@@ -33,7 +33,7 @@ public class CouponMasterController {
     }
 
     @GetMapping("/couponMaster")
-    public ResponseEntity<Object> productList(Pageable pageable) {
+    public ResponseEntity<Object> couponMasterList(Pageable pageable) {
         Page<CouponMaster> couponMasters = couponMasterService.getAllCoupon(pageable);
         return ResponseEntity.ok(couponMasters);
     }

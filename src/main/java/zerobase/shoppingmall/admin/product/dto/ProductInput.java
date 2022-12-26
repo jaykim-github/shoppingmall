@@ -12,11 +12,11 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductInput {
+
     private String productName;
     private String productDescription;
 
     private Long price;
 
-    //0: 판매중지, 1:판매중
-    private int status;
+    private ProductStatus status;
 }

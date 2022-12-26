@@ -1,6 +1,7 @@
 package zerobase.shoppingmall.user.dto;
 
 
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +15,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class UserInput {
 
-    private String user_id;
+    private String userId;
     private String userName;
     private String phone;
     private String password;
@@ -22,5 +23,6 @@ public class UserInput {
     private String zipcode;
     private String address;
     private String addressDetail;
+    private List<String> roles;
 
 }

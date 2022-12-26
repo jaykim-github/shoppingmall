@@ -1,7 +1,6 @@
 package zerobase.shoppingmall.response;
 
 import java.util.List;
-import jodd.net.HttpStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,8 +14,6 @@ import lombok.Setter;
 @Builder
 public class BaseResponse {
 
-    private Integer code;
-    private HttpStatus httpStatus;
     private String message;
     private Integer count;
     private List<Object> result;

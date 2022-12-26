@@ -24,3 +24,13 @@ spring:
         smtp:
           starttls:
             enable: true
+
+  jwt:
+    secret: ZGF5b25lLXNwcmluZy1ib290LWRpdmlkZW5kLXByb2plY3QtdHV0b3JpYWwtand0
+
+  redis:
+    host: localhost
+    port: 6379
+
+  main:
+    allow-circular-references: true

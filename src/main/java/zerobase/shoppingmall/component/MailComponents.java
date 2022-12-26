@@ -32,7 +32,6 @@ public class MailComponents {
             javaMailSender.send(msg);
             result = true;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
         }
 
 
